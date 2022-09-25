@@ -7,6 +7,7 @@ Application::Application()
 	scene_intro = new ModuleSceneIntro(this);
 	renderer3D = new ModuleRenderer3D(this);
 	camera = new ModuleCamera3D(this);
+	editor = new ModuleEditor(this);
 
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
@@ -22,6 +23,7 @@ Application::Application()
 
 	// Renderer last!
 	AddModule(renderer3D);
+	AddModule(editor);
 }
 
 Application::~Application()
