@@ -21,8 +21,13 @@ public:
 	bool CleanUp();
 
 	void Draw();
+	void ShowPropertiesWindow();
+	void ShowAboutWindow();
+	void RequestBrowser(const char* website_url);
 
 private:
 
 	bool showDemoWindow = false;
+	bool showPropertiesWindow = false;
+	bool showAboutWindow = false;
 };
