@@ -3,6 +3,7 @@
 
 #include "Module.h"
 #include "SDL/include/SDL.h"
+#include "Parson/parson.h"
 
 class Application;
 
@@ -19,6 +20,10 @@ public:
 	bool CleanUp();
 
 	void SetTitle(const char* title);
+	const char* GetTitle();
+
+	bool Save();
+	bool Load();
 
 public:
 	//The window we'll be rendering to
@@ -26,6 +31,20 @@ public:
 
 	//The surface contained by the window
 	SDL_Surface* screen_surface;
+
+	const char* window_title = "Config not found.";
+	int wwidth;
+	int wheight;
+	int wscale;
+	bool wfullscreen;
+	bool wresizable;
+	bool wborderless;
+	bool wwindowed_fullscreen;
+	bool wvsync;
+
+private:
+
+	JSON_Object* window_object;
 };
 
 #endif // __ModuleWindow_H__

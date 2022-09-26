@@ -4,6 +4,7 @@
 
 ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
+	name.assign("camera");
 	CalculateViewMatrix();
 
 	X = vec3(1.0f, 0.0f, 0.0f);
@@ -153,4 +154,53 @@ void ModuleCamera3D::CalculateViewMatrix()
 {
 	ViewMatrix = mat4x4(X.x, Y.x, Z.x, 0.0f, X.y, Y.y, Z.y, 0.0f, X.z, Y.z, Z.z, 0.0f, -dot(X, Position), -dot(Y, Position), -dot(Z, Position), 1.0f);
 	ViewMatrixInverse = inverse(ViewMatrix);
+}
+
+bool ModuleCamera3D::Save()
+{
+	if (App->config != NULL)
+	{
+		if (json_object_has_value(App->modules_object, name.data()) == false)
+		{
+			json_object_set_null(App->modules_object, name.data());
+			json_serialize_to_file_pretty(App->config, "config.json");
+		}
+
+		LOG("Saving module %s", name.data());
+	}
+	else
+	{
+		json_object_set_null(App->modules_object, name.data());
+
+		LOG("Saving module %s", name.data());
+	}
+
+
+	return(true);
+}
+
+bool ModuleCamera3D::Load()
+{
+	bool ret = false;
+
+	if (App->config != NULL)
+	{
+		if (json_object_has_value(App->modules_object, name.data()) != false)
+		{
+			LOG("Loading module %s", name.data());
+			ret = true;
+		}
+		else
+		{
+			LOG("Could not find the node named %s inside the file config.json", name.data());
+			ret = false;
+		}
+	}
+	else
+	{
+		LOG("Document config.json not found.");
+		ret = false;
+	}
+
+	return ret;
 }

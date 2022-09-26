@@ -8,6 +8,7 @@
 
 ModuleInput::ModuleInput(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
+	name.assign("input");
 	keyboard = new KEY_STATE[MAX_KEYS];
 	memset(keyboard, KEY_IDLE, sizeof(KEY_STATE) * MAX_KEYS);
 }
@@ -29,6 +30,13 @@ bool ModuleInput::Init()
 	{
 		LOG("SDL_EVENTS could not initialize! SDL_Error: %s\n", SDL_GetError());
 		ret = false;
+	}
+	else
+	{
+		if (App->config != NULL)
+		{
+			input_object = json_object_dotget_object(App->modules_object, "input");
+		}
 	}
 
 	return ret;
@@ -128,4 +136,53 @@ bool ModuleInput::CleanUp()
 	LOG("Quitting SDL input event subsystem");
 	SDL_QuitSubSystem(SDL_INIT_EVENTS);
 	return true;
+}
+
+bool ModuleInput::Save()
+{
+	if (App->config != NULL)
+	{
+		if (json_object_has_value(App->modules_object, name.data()) == false) 
+		{
+			json_object_set_null(App->modules_object, name.data());
+			json_serialize_to_file_pretty(App->config, "config.json");
+		}
+
+		LOG("Saving module %s", name.data());
+	}
+	else
+	{
+		json_object_set_null(App->modules_object, name.data());
+
+		LOG("Saving module %s", name.data());
+	}
+
+
+	return(true);
+}
+
+bool ModuleInput::Load()
+{
+	bool ret = false;
+
+	if (App->config != NULL)
+	{
+		if (json_object_has_value(App->modules_object, name.data()) != false)
+		{
+			LOG("Loading module %s", name.data());
+			ret = true;
+		}
+		else
+		{
+			LOG("Could not find the node named %s inside the file config.json", name.data());
+			ret = false;
+		}
+	}
+	else
+	{
+		LOG("Document config.json not found.");
+		ret = false;
+	}
+
+	return ret;
 }

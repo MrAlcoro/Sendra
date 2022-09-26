@@ -6,6 +6,7 @@
 #include "imgui_internal.h"
 #include "imgui_impl_opengl3.h"
 #include "imgui_impl_sdl.h"
+#include <vector>
 
 
 class ModuleEditor : public Module
@@ -23,7 +24,11 @@ public:
 	void Draw();
 	void ShowPropertiesWindow();
 	void ShowAboutWindow();
+	void ShowConsoleWindow();
 	void RequestBrowser(const char* website_url);
+
+	bool Save();
+	bool Load();
 
 private:
 

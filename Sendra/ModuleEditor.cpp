@@ -5,7 +5,9 @@
 
 
 ModuleEditor::ModuleEditor(Application* app, bool start_enabled) : Module(app, start_enabled)
-{}
+{
+	name.assign("editor");
+}
 
 // Destructor
 ModuleEditor::~ModuleEditor()
@@ -107,14 +109,16 @@ void ModuleEditor::Draw()
 		ImGui::EndMainMenuBar();
 	}
 
+	ShowConsoleWindow();
+
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
 void ModuleEditor::ShowPropertiesWindow()
 {
-	ImGui::SetNextWindowPos(ImVec2(300, 400), ImGuiCond_Appearing, ImVec2(0.5f, 0.4f));
-	ImGui::SetNextWindowSize(ImVec2(500, 800));
+	ImGui::SetNextWindowPos(ImVec2(300, 300), ImGuiCond_Appearing, ImVec2(0.5f, 0.4f));
+	ImGui::SetNextWindowSize(ImVec2(500, 650));
 	ImGui::Begin("Properties");
 	
 	if (ImGui::CollapsingHeader("Application"))
@@ -155,7 +159,7 @@ void ModuleEditor::ShowPropertiesWindow()
 
 void ModuleEditor::ShowAboutWindow()
 {
-	ImGui::SetNextWindowPos(ImGui::GetMainViewport()->GetCenter(), ImGuiCond_Appearing, ImVec2(0.5f, 0.4f));
+	ImGui::SetNextWindowPos(ImVec2(1000, 400), ImGuiCond_Appearing, ImVec2(0.5f, 0.4f));
 	ImGui::SetNextWindowSize(ImVec2(500, 450));
 	ImGui::Begin("About");
 
@@ -208,4 +212,63 @@ void ModuleEditor::ShowAboutWindow()
 		"SOFTWARE.\n\n\n");
 
 	ImGui::End();
+}
+
+void ModuleEditor::ShowConsoleWindow()
+{
+	ImGui::SetNextWindowPos(ImVec2(600, 850), ImGuiCond_Appearing, ImVec2(0.5f, 0.4f));
+	ImGui::SetNextWindowSize(ImVec2(800, 200));
+	ImGui::Begin("Console");
+
+
+	ImGui::End();
+}
+
+bool ModuleEditor::Save()
+{
+	if (App->config != NULL)
+	{
+		if (json_object_has_value(App->modules_object, name.data()) == false)
+		{
+			json_object_set_null(App->modules_object, name.data());
+			json_serialize_to_file_pretty(App->config, "config.json");
+		}
+
+		LOG("Saving module %s", name.data());
+	}
+	else
+	{
+		json_object_set_null(App->modules_object, name.data());
+
+		LOG("Saving module %s", name.data());
+	}
+
+
+	return(true);
+}
+
+bool ModuleEditor::Load()
+{
+	bool ret = false;
+
+	if (App->config != NULL)
+	{
+		if (json_object_has_value(App->modules_object, name.data()) != false)
+		{
+			LOG("Loading module %s", name.data());
+			ret = true;
+		}
+		else
+		{
+			LOG("Could not find the node named %s inside the file config.json", name.data());
+			ret = false;
+		}
+	}
+	else
+	{
+		LOG("Document config.json not found.");
+		ret = false;
+	}
+
+	return ret;
 }

@@ -45,6 +45,18 @@ bool Application::Init()
 {
 	bool ret = true;
 
+	config = json_parse_file("config.json");
+
+	if (config != NULL)
+	{
+		modules_object = json_value_get_object(config);
+
+		LOG("Document loaded successfully.");
+	}
+	else
+		LOG("Document could not be loaded.");
+	
+
 	// Call Init() in all modules
 
 	list<Module*>::iterator item_list;
@@ -129,4 +141,30 @@ bool Application::CleanUp()
 void Application::AddModule(Module* mod)
 {
 	list_modules.push_back(mod);
+}
+
+void Application::CallSave()
+{
+	std::list<Module*>::iterator iterator = list_modules.begin();
+
+	while (iterator != list_modules.end())
+	{
+		iterator._Ptr->_Myval->Save();
+		iterator++;
+	}
+
+	LOG("Saving engine's configuration...");
+}
+
+void Application::CallLoad()
+{
+	std::list<Module*>::iterator iterator = list_modules.begin();
+
+	while (iterator != list_modules.end())
+	{
+		iterator._Ptr->_Myval->Load();
+		iterator++;
+	}
+
+	LOG("Loading engine's configuration...");
 }

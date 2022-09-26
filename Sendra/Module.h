@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 
 class Application;
 
@@ -9,6 +10,7 @@ private :
 
 public:
 	Application* App;
+	std::string name;
 
 	Module(Application* parent, bool start_enabled = true) : App(parent)
 	{}
@@ -44,5 +46,15 @@ public:
 	virtual bool CleanUp() 
 	{ 
 		return true; 
+	}
+
+	virtual bool Save()
+	{
+		return(true);
+	}
+
+	virtual bool Load()
+	{
+		return(true);
 	}
 };

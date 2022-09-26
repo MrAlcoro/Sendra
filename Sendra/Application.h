@@ -9,6 +9,7 @@
 #include "ModuleRenderer3D.h"
 #include "ModuleCamera3D.h"
 #include "ModuleEditor.h"
+#include "Parson/parson.h"
 #include <list>
 
 using namespace std;
@@ -22,6 +23,9 @@ public:
 	ModuleRenderer3D* renderer3D;
 	ModuleCamera3D* camera;
 	ModuleEditor* editor;
+
+	JSON_Value* config;
+	JSON_Object* modules_object;
 
 private:
 
@@ -37,6 +41,10 @@ public:
 	bool Init();
 	update_status Update();
 	bool CleanUp();
+
+
+	void CallSave();
+	void CallLoad();
 
 private:
 

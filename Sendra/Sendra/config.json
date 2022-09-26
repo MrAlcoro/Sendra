@@ -1,0 +1,17 @@
+{
+    "camera": {},
+    "editor": {},
+    "renderer": {},
+    "window": {
+        "title": "Sendra",
+        "width": 1280,
+        "height": 1024,
+        "scale": 1,
+        "fullscreen": false,
+        "resizable": true,
+        "borderless": false,
+        "windowed_fullscreen": false,
+        "vsync": true
+    },
+    "input": {}
+}

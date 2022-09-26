@@ -13,6 +13,7 @@
 
 ModuleRenderer3D::ModuleRenderer3D(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
+	name.assign("renderer");
 }
 
 // Destructor
@@ -157,4 +158,53 @@ void ModuleRenderer3D::OnResize(int width, int height)
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
+}
+
+bool ModuleRenderer3D::Save()
+{
+	if (App->config != NULL)
+	{
+		if (json_object_has_value(App->modules_object, name.data()) == false)
+		{
+			json_object_set_null(App->modules_object, name.data());
+			json_serialize_to_file_pretty(App->config, "config.json");
+		}
+
+		LOG("Saving module %s", name.data());
+	}
+	else
+	{
+		json_object_set_null(App->modules_object, name.data());
+
+		LOG("Saving module %s", name.data());
+	}
+
+
+	return(true);
+}
+
+bool ModuleRenderer3D::Load()
+{
+	bool ret = false;
+
+	if (App->config != NULL)
+	{
+		if (json_object_has_value(App->modules_object, name.data()) != false)
+		{
+			LOG("Loading module %s", name.data());
+			ret = true;
+		}
+		else
+		{
+			LOG("Could not find the node named %s inside the file config.json", name.data());
+			ret = false;
+		}
+	}
+	else
+	{
+		LOG("Document config.json not found.");
+		ret = false;
+	}
+
+	return ret;
 }
