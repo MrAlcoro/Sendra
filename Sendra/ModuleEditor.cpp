@@ -19,6 +19,33 @@ bool ModuleEditor::Init()
 	LOG("Creating Editor");
 	bool ret = true;
 
+	if (App->config != NULL)
+	{
+		editor_object = json_object_dotget_object(App->modules_object, "editor");
+
+		if (editor_object != NULL)
+		{
+			showDemoWindow = json_object_dotget_boolean(editor_object, "show_demo");
+			showPropertiesWindow = json_object_dotget_boolean(editor_object, "show_properties");
+			showAboutWindow = json_object_dotget_boolean(editor_object, "show_about");
+			showConsoleWindow = json_object_dotget_boolean(editor_object, "show_console");
+		}
+		else
+		{
+			showDemoWindow = false;
+			showPropertiesWindow = false;
+			showAboutWindow = false;
+			showConsoleWindow = false;
+		}
+	}
+	else
+	{
+		showDemoWindow = false;
+		showPropertiesWindow = false;
+		showAboutWindow = false;
+		showConsoleWindow = false;
+	}
+
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
@@ -76,6 +103,9 @@ void ModuleEditor::Draw()
 	if (showAboutWindow)
 		ShowAboutWindow();
 
+	if (showConsoleWindow)
+		ShowConsoleWindow();
+
 	// Main menu bar ------------------------------------------------------------
 	if (ImGui::BeginMainMenuBar())
 	{
@@ -87,10 +117,24 @@ void ModuleEditor::Draw()
 			ImGui::EndMenu();
 		}
 
+		if (ImGui::BeginMenu("Edit"))
+		{
+			if (ImGui::MenuItem("Save", "CTRL + S"))
+				App->CallSave();
+
+			if (ImGui::MenuItem("Load", "CTRL + L"))
+				App->CallLoad();
+
+			ImGui::EndMenu();
+		}
+
 		if (ImGui::BeginMenu("Project"))
 		{
 			if (ImGui::MenuItem("Properties"))
 				showPropertiesWindow = !showPropertiesWindow;
+
+			if (ImGui::MenuItem("Console"))
+				showConsoleWindow = !showConsoleWindow;
 
 			ImGui::EndMenu();
 		}
@@ -108,8 +152,6 @@ void ModuleEditor::Draw()
 
 		ImGui::EndMainMenuBar();
 	}
-
-	ShowConsoleWindow();
 
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -230,7 +272,18 @@ bool ModuleEditor::Save()
 	{
 		if (json_object_has_value(App->modules_object, name.data()) == false)
 		{
-			json_object_set_null(App->modules_object, name.data());
+			json_object_dotset_boolean(App->modules_object, "editor.show_demo", showDemoWindow);
+			json_object_dotset_boolean(App->modules_object, "editor.show_properties", showPropertiesWindow);
+			json_object_dotset_boolean(App->modules_object, "editor.show_about", showAboutWindow);
+			json_object_dotset_boolean(App->modules_object, "editor.show_console", showConsoleWindow);
+			json_serialize_to_file_pretty(App->config, "config.json");
+		}
+		else
+		{
+			json_object_dotset_boolean(App->modules_object, "editor.show_demo", showDemoWindow);
+			json_object_dotset_boolean(App->modules_object, "editor.show_properties", showPropertiesWindow);
+			json_object_dotset_boolean(App->modules_object, "editor.show_about", showAboutWindow);
+			json_object_dotset_boolean(App->modules_object, "editor.show_console", showConsoleWindow);
 			json_serialize_to_file_pretty(App->config, "config.json");
 		}
 
@@ -238,7 +291,11 @@ bool ModuleEditor::Save()
 	}
 	else
 	{
-		json_object_set_null(App->modules_object, name.data());
+		json_object_dotset_boolean(App->modules_object, "editor.show_demo", showDemoWindow);
+		json_object_dotset_boolean(App->modules_object, "editor.show_properties", showPropertiesWindow);
+		json_object_dotset_boolean(App->modules_object, "editor.show_about", showAboutWindow);
+		json_object_dotset_boolean(App->modules_object, "editor.show_console", showConsoleWindow);
+		json_serialize_to_file_pretty(App->config, "config.json");
 
 		LOG("Saving module %s", name.data());
 	}
@@ -256,6 +313,12 @@ bool ModuleEditor::Load()
 		if (json_object_has_value(App->modules_object, name.data()) != false)
 		{
 			LOG("Loading module %s", name.data());
+
+			showDemoWindow = json_object_dotget_boolean(editor_object, "show_demo");
+			showPropertiesWindow = json_object_dotget_boolean(editor_object, "show_properties");
+			showAboutWindow = json_object_dotget_boolean(editor_object, "show_about");
+			showConsoleWindow = json_object_dotget_boolean(editor_object, "show_console");
+
 			ret = true;
 		}
 		else

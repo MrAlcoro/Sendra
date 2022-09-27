@@ -127,6 +127,12 @@ update_status ModuleInput::PreUpdate(float dt)
 	if(quit == true || keyboard[SDL_SCANCODE_ESCAPE] == KEY_UP)
 		return UPDATE_STOP;
 
+	if (keyboard[SDL_SCANCODE_LCTRL] == KEY_REPEAT && keyboard[SDL_SCANCODE_S] == KEY_UP)
+		App->CallSave();
+
+	if (keyboard[SDL_SCANCODE_LCTRL] == KEY_REPEAT && keyboard[SDL_SCANCODE_L] == KEY_UP)
+		App->CallLoad();
+
 	return UPDATE_CONTINUE;
 }
 

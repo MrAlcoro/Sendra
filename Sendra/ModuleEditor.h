@@ -6,6 +6,7 @@
 #include "imgui_internal.h"
 #include "imgui_impl_opengl3.h"
 #include "imgui_impl_sdl.h"
+#include "Parson/parson.h"
 #include <vector>
 
 
@@ -35,4 +36,6 @@ private:
 	bool showDemoWindow = false;
 	bool showPropertiesWindow = false;
 	bool showAboutWindow = false;
+	bool showConsoleWindow = false;
+	JSON_Object* editor_object;
 };
