@@ -205,7 +205,11 @@ void ModuleEditor::ShowAboutWindow()
 	ImGui::SetNextWindowSize(ImVec2(500, 450));
 	ImGui::Begin("About");
 
-	ImGui::Text("Sendra\n3D game engine made by Alexis Cosano Rodriguez.\n\n");
+	ImGui::Text("Sendra\n");
+	ImGui::Text("3D game engine made by");
+	ImGui::SameLine();
+	if (ImGui::MenuItem("Alexis Cosano Rodriguez.")) { RequestBrowser("https://github.com/MrAlcoro"); };
+	ImGui::Spacing();
 	ImGui::Separator();
 	ImGui::Spacing();
 	ImGui::Text("External resources used:\n");
