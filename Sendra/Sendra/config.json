@@ -13,7 +13,7 @@
         "height": 1024,
         "scale": 1,
         "fullscreen": false,
-        "resizable": true,
+        "resizable": false,
         "borderless": false,
         "windowed_fullscreen": false,
         "vsync": true

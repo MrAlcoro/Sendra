@@ -31,6 +31,9 @@ public:
 	bool Save();
 	bool Load();
 
+	void ConsoleClearLog();
+	void ConsoleLog(const char* console_log);
+
 private:
 
 	bool showDemoWindow = false;
@@ -38,4 +41,11 @@ private:
 	bool showAboutWindow = false;
 	bool showConsoleWindow = false;
 	JSON_Object* editor_object;
+	bool fullscreen = false;
+	bool resizable = false;
+	bool borderless = false;
+	bool full_desktop = false;
+	int fps = 0;
+	bool console_scroll = true;
+	ImGuiTextBuffer console_buffer;
 };

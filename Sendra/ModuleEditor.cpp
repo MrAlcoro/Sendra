@@ -76,6 +76,8 @@ bool ModuleEditor::CleanUp()
 {
 	LOG("Destroying Editor");
 
+	ConsoleClearLog();
+
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
@@ -165,7 +167,41 @@ void ModuleEditor::ShowPropertiesWindow()
 	
 	if (ImGui::CollapsingHeader("Application"))
 	{
-		ImGui::TextWrapped("Engine name: Sendra");
+		static char title[64] = "Sendra"; 
+		ImGui::InputText("Engine's name", title, 64);
+		static char organization[64] = "CITM UPC";
+		ImGui::InputText("Organization", organization, 64);
+		ImGui::Separator();
+		ImGui::SliderInt("Max FPS", &fps, 0, 347);
+		ImGui::Text("Limit Framerate: %d", fps);
+	}
+
+	if (ImGui::CollapsingHeader("Window"))
+	{
+		if (ImGui::Checkbox("Fullscreen", &fullscreen))
+		{
+			App->window->SetFullscreen(fullscreen);
+			fullscreen = !fullscreen;
+		}
+
+		if (ImGui::Checkbox("Borderless", &borderless))
+		{
+			App->window->SetBorderless(borderless);
+			borderless = !borderless;
+		}
+
+		if (ImGui::Checkbox("Resizable", &resizable))
+		{
+			App->window->SetResizable(resizable);
+			resizable = !resizable;
+		}
+
+		if (ImGui::Checkbox("Full desktop", &full_desktop))
+		{
+			App->window->SetFullDesktop(full_desktop);
+			full_desktop = !full_desktop;
+		}
+			
 	}
 
 	if (ImGui::CollapsingHeader("Input"))
@@ -177,12 +213,17 @@ void ModuleEditor::ShowPropertiesWindow()
 		ImGui::TextColored({ 255, 255, 0, 255 }, "Y: %i", App->input->GetMouseY());
 	}
 
-	if (ImGui::CollapsingHeader("User's information"))
+	if (ImGui::CollapsingHeader("Hardware"))
 	{
-		ImGui::BulletText("CPU cache line size: %d", SDL_GetCPUCacheLineSize());
-		ImGui::BulletText("CPU cores available: %d", SDL_GetCPUCount());
-		ImGui::BulletText("RAM configured: %d", SDL_GetSystemRAM());
-		ImGui::BulletText("RAM configured: %d", SDL_GetSystemRAM());
+		ImGui::BulletText("SDL version: v%d.%d.%d", SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL);
+		ImGui::Separator();
+		ImGui::Spacing();
+		ImGui::BulletText("CPUs: %d", SDL_GetCPUCount());
+		ImGui::SameLine();
+		ImGui::Text("(Cache: %dkb)", SDL_GetCPUCacheLineSize());
+		float mebibytes = SDL_GetSystemRAM();
+		float gigabytes = mebibytes * 0.001048576;
+		ImGui::BulletText("RAM configured: %.2fGb", gigabytes);
 		ImGui::BulletText("Has 3DNow!: %d", SDL_Has3DNow());
 		ImGui::BulletText("Has AltiVec: %d", SDL_HasAltiVec());
 		ImGui::BulletText("Has AVX: %d", SDL_HasAVX());
@@ -194,6 +235,12 @@ void ModuleEditor::ShowPropertiesWindow()
 		ImGui::BulletText("Has SSE3: %d", SDL_HasSSE3());
 		ImGui::BulletText("Has SSE41: %d", SDL_HasSSE41());
 		ImGui::BulletText("Has SSE42: %d", SDL_HasSSE42());
+		ImGui::Separator();
+		ImGui::Spacing();
+		char* gl_renderer = (char*)glGetString(GL_RENDERER);
+		char* gl_vendor = (char*)glGetString(GL_VENDOR);
+		ImGui::BulletText("GPU: %s", gl_renderer);
+		ImGui::BulletText("Brand: %s", gl_vendor);		
 	}
 
 	ImGui::End();
@@ -260,12 +307,30 @@ void ModuleEditor::ShowAboutWindow()
 	ImGui::End();
 }
 
+void ModuleEditor::ConsoleClearLog()
+{
+	console_buffer.clear();
+	console_scroll = true;
+}
+
+void ModuleEditor::ConsoleLog(const char* console_log)
+{
+	console_buffer.append(console_log);
+	console_scroll = true;
+}
+
 void ModuleEditor::ShowConsoleWindow()
 {
 	ImGui::SetNextWindowPos(ImVec2(600, 850), ImGuiCond_Appearing, ImVec2(0.5f, 0.4f));
 	ImGui::SetNextWindowSize(ImVec2(800, 200));
 	ImGui::Begin("Console");
 
+	ImGui::TextUnformatted(console_buffer.begin());
+
+	if (console_scroll)
+		ImGui::SetScrollHereY(1.0f);
+
+	console_scroll = false;
 
 	ImGui::End();
 }

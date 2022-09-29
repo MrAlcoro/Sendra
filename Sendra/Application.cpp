@@ -138,6 +138,11 @@ bool Application::CleanUp()
 	return ret;
 }
 
+void Application::AddConsoleLog(const char* console_log)
+{
+	editor->ConsoleLog(console_log);
+}
+
 void Application::AddModule(Module* mod)
 {
 	list_modules.push_back(mod);

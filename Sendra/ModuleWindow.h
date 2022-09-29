@@ -21,6 +21,10 @@ public:
 
 	void SetTitle(const char* title);
 	const char* GetTitle();
+	void SetFullscreen(bool fullscreen);
+	void SetBorderless(bool borderless);
+	void SetResizable(bool resizable);
+	void SetFullDesktop(bool fullscreen);
 
 	bool Save();
 	bool Load();
@@ -39,7 +43,7 @@ public:
 	bool wfullscreen;
 	bool wresizable;
 	bool wborderless;
-	bool wwindowed_fullscreen;
+	bool wdesktop;
 	bool wvsync;
 
 private:

@@ -46,9 +46,13 @@ public:
 	void CallSave();
 	void CallLoad();
 
+	void AddConsoleLog(const char* console_log);
+
 private:
 
 	void AddModule(Module* mod);
 	void PrepareUpdate();
 	void FinishUpdate();
 };
+
+extern Application* App;
