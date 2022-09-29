@@ -1,10 +1,10 @@
 {
     "camera": {},
     "editor": {
-        "show_demo": false,
-        "show_properties": false,
-        "show_about": false,
-        "show_console": false
+        "show_demo": true,
+        "show_properties": true,
+        "show_about": true,
+        "show_console": true
     },
     "renderer": {},
     "window": {
