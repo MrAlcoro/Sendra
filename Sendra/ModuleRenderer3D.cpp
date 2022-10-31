@@ -126,6 +126,14 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 	return UPDATE_CONTINUE;
 }
 
+update_status ModuleRenderer3D::Update(float dt)
+{
+	for (std::vector<MeshData>::iterator item = App->loader->meshes.begin(); item != App->loader->meshes.end(); ++item)
+		App->renderer3D->DrawFBX(*item);
+
+	return UPDATE_CONTINUE;
+}
+
 // PostUpdate present buffer to screen
 update_status ModuleRenderer3D::PostUpdate(float dt)
 {
@@ -146,6 +154,34 @@ bool ModuleRenderer3D::CleanUp()
 	return true;
 }
 
+bool ModuleRenderer3D::DrawFBX(MeshData mesh)
+{
+	bool ret = false;
+
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	glEnable(GL_TEXTURE_2D);
+
+	glBindBuffer(GL_ARRAY_BUFFER, mesh.id_vertex);
+	glVertexPointer(3, GL_FLOAT, 0, NULL);
+	glBindBuffer(GL_ARRAY_BUFFER, mesh.id_uvs);
+	glTexCoordPointer(2, GL_FLOAT, 0, NULL);
+
+	if (App->loader->last_texture_id == 0)
+		glBindTexture(GL_TEXTURE_2D, mesh.texture_id);
+	else
+		glBindTexture(GL_TEXTURE_2D, App->loader->last_texture_id);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh.id_index);
+	glDrawElements(GL_TRIANGLES, mesh.num_index, GL_UNSIGNED_INT, NULL);
+
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glDisable(GL_TEXTURE_2D);
+
+	return ret;
+}
 
 void ModuleRenderer3D::OnResize(int width, int height)
 {

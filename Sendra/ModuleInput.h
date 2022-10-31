@@ -3,6 +3,7 @@
 
 #include "Module.h"
 #include "Globals.h"
+#include <string>
 
 #define MAX_MOUSE_BUTTONS 5
 
@@ -14,6 +15,12 @@ enum KEY_STATE
 	KEY_UP
 };
 
+enum FILE_TYPE
+{
+	MODEL = 0,
+	TEXTURE
+};
+
 class ModuleInput : public Module
 {
 public:
@@ -23,6 +30,7 @@ public:
 
 	bool Init();
 	update_status PreUpdate(float dt);
+	FILE_TYPE GetFileType(std::string file_name);
 	bool CleanUp();
 
 	bool Save();
@@ -74,6 +82,7 @@ private:
 	int mouse_z;
 	int mouse_x_motion;
 	int mouse_y_motion;
+	std::string file_path;
 	JSON_Object* input_object;
 };
 #endif

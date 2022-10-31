@@ -42,6 +42,23 @@ bool ModuleInput::Init()
 	return ret;
 }
 
+FILE_TYPE ModuleInput::GetFileType(std::string file_name)
+{
+	std::string type = file_name.substr(file_name.find_last_of("."));
+
+	if (type == ".fbx" || type == ".obj" ||
+		type == ".FBX" || type == ".OBJ")
+	{
+		return MODEL;
+	}
+
+	else if (type == ".png" || type == ".jpg" || type == ".bmp" || type == ".dds" ||
+		type == ".PNG" || type == ".JPG" || type == ".BMP" || type == ".DDS")
+	{
+		return TEXTURE;
+	}
+}
+
 // Called every draw update
 update_status ModuleInput::PreUpdate(float dt)
 {
@@ -100,6 +117,8 @@ update_status ModuleInput::PreUpdate(float dt)
 
 		switch(e.type)
 		{
+			FILE_TYPE type;
+
 			case SDL_MOUSEWHEEL:
 			mouse_z = e.wheel.y;
 			break;
@@ -115,6 +134,26 @@ update_status ModuleInput::PreUpdate(float dt)
 			case SDL_QUIT:
 			quit = true;
 			break;
+
+			case SDL_DROPFILE:
+				file_path = e.drop.file;
+				type = GetFileType(file_path.c_str());
+				if (type == MODEL)
+				{
+					if (App->loader->meshes.size() != 0)
+					{
+						App->loader->meshes.clear();
+						App->loader->LoadFile(file_path.c_str());
+					}
+					else
+						App->loader->LoadFile(file_path.c_str());
+
+					App->loader->Focus();
+				}
+				else if (type == TEXTURE)
+				{
+					App->loader->SetTexture(file_path.c_str());
+				}
 
 			case SDL_WINDOWEVENT:
 			{
