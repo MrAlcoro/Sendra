@@ -4,7 +4,7 @@
 
 ModuleLoader::ModuleLoader(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
-	name.assign("fbxloader");
+	name.assign("loader");
 }
 
 ModuleLoader::~ModuleLoader() {}
@@ -28,7 +28,7 @@ update_status ModuleLoader::Update(float dt)
 
 bool ModuleLoader::CleanUp()
 {
-	LOG("Cleaning fbx loader");
+	LOG("Cleaning loader");
 
 	return true;
 }

@@ -1,5 +1,5 @@
-#ifndef __ModuleWindow_H__
-#define __ModuleWindow_H__
+#ifndef __MODULEWINDOW_H__
+#define __MODULEWINDOW_H__
 
 #include "Module.h"
 #include "SDL/include/SDL.h"
@@ -50,5 +50,4 @@ private:
 
 	JSON_Object* window_object;
 };
-
-#endif // __ModuleWindow_H__
+#endif

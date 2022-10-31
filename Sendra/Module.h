@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __MODULEMODULE_H__
+#define __MODULEMODULE_H__
+
 #include <string>
 
 class Application;
@@ -58,3 +60,4 @@ public:
 		return(true);
 	}
 };
+#endif

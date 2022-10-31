@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __MODULECAMERA_H__
+#define __MODULECAMERA_H__
+
 #include "Module.h"
 #include "Globals.h"
 #include "glmath.h"
@@ -33,3 +35,4 @@ private:
 
 	mat4x4 ViewMatrix, ViewMatrixInverse;
 };
+#endif

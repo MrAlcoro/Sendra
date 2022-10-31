@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __MODULEINPUT_H__
+#define __MODULEINPUT_H__
+
 #include "Module.h"
 #include "Globals.h"
 
@@ -74,3 +76,4 @@ private:
 	int mouse_y_motion;
 	JSON_Object* input_object;
 };
+#endif

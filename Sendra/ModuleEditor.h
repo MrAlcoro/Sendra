@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __MODULEEDITOR_H__
+#define __MODULEEDITOR_H__
 
 #include "Module.h"
 #include "Globals.h"
@@ -49,3 +50,4 @@ private:
 	bool console_scroll = true;
 	ImGuiTextBuffer console_buffer;
 };
+#endif
