@@ -169,17 +169,14 @@ bool ModuleRenderer3D::Save()
 			json_object_set_null(App->modules_object, name.data());
 			json_serialize_to_file_pretty(App->config, "config.json");
 		}
-
-		LOG("Saving module %s", name.data());
 	}
 	else
 	{
 		json_object_set_null(App->modules_object, name.data());
-
-		LOG("Saving module %s", name.data());
+		json_serialize_to_file_pretty(App->config, "config.json");
 	}
 
-
+	LOG("Saving module %s", name.data());
 	return(true);
 }
 

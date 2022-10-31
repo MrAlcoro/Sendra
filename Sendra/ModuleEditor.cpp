@@ -355,8 +355,6 @@ bool ModuleEditor::Save()
 			json_object_dotset_boolean(App->modules_object, "editor.show_console", showConsoleWindow);
 			json_serialize_to_file_pretty(App->config, "config.json");
 		}
-
-		LOG("Saving module %s", name.data());
 	}
 	else
 	{
@@ -365,11 +363,9 @@ bool ModuleEditor::Save()
 		json_object_dotset_boolean(App->modules_object, "editor.show_about", showAboutWindow);
 		json_object_dotset_boolean(App->modules_object, "editor.show_console", showConsoleWindow);
 		json_serialize_to_file_pretty(App->config, "config.json");
-
-		LOG("Saving module %s", name.data());
 	}
 
-
+	LOG("Saving module %s", name.data());
 	return(true);
 }
 

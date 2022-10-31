@@ -51,10 +51,13 @@ bool Application::Init()
 	{
 		modules_object = json_value_get_object(config);
 
-		LOG("Document loaded successfully.");
+		LOG("Configuration loaded successfully.");
 	}
 	else
-		LOG("Document could not be loaded.");
+	{
+		LOG("Configuration could not be loaded.");
+	}
+		
 	
 
 	// Call Init() in all modules
