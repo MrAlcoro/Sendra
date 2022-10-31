@@ -9,6 +9,7 @@
 #include "ModuleRenderer3D.h"
 #include "ModuleCamera3D.h"
 #include "ModuleEditor.h"
+#include "ModuleLoader.h"
 #include "Parson/parson.h"
 #include <list>
 
@@ -23,6 +24,7 @@ public:
 	ModuleRenderer3D* renderer3D;
 	ModuleCamera3D* camera;
 	ModuleEditor* editor;
+	ModuleLoader* loader;
 
 	JSON_Value* config;
 	JSON_Object* modules_object;
