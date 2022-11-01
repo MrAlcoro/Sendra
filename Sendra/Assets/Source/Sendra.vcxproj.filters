@@ -99,7 +99,7 @@
     <ClInclude Include="Assets\Libraries\Glew\include\wglew.h">
       <Filter>Sources\Tools\Glew</Filter>
     </ClInclude>
-    <ClInclude Include="ModuleSceneIntro.h">
+    <ClInclude Include="ModuleScene.h">
       <Filter>Sources\Modules</Filter>
     </ClInclude>
     <ClInclude Include="..\Libraries\ImGui\imconfig.h">
@@ -356,7 +356,7 @@
     <ClCompile Include="ModuleLoader.cpp">
       <Filter>Sources\Modules</Filter>
     </ClCompile>
-    <ClCompile Include="ModuleSceneIntro.cpp">
+    <ClCompile Include="ModuleScene.cpp">
       <Filter>Sources\Modules</Filter>
     </ClCompile>
     <ClCompile Include="..\Libraries\ImGui\imgui.cpp">

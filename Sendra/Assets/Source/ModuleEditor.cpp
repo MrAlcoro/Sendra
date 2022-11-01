@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "ModuleEditor.h"
 #include "glew.h"
+#include "version.h"
 
 
 ModuleEditor::ModuleEditor(Application* app, bool start_enabled) : Module(app, start_enabled)
@@ -262,23 +263,43 @@ void ModuleEditor::ShowAboutWindow()
 	ImGui::Text("External resources used:\n");
 	ImGui::BulletText("ImGui v%s", ImGui::GetVersion());
 	ImGui::SameLine();
-	if (ImGui::Button("Download"))
+	if (ImGui::Button("ImGui"))
 		RequestBrowser("https://github.com/ocornut/imgui/tree/docking");
 
 	ImGui::BulletText("SDL v%d.%d.%d", SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL);
 	ImGui::SameLine();
-	if (ImGui::Button("Download"))
-		RequestBrowser("https://libsdl.org/");
+	if (ImGui::Button("SDL"))
+		RequestBrowser("https://libsdl.org");
 
 	ImGui::BulletText("Glew v%d.%d.%d", GLEW_VERSION_MAJOR, GLEW_VERSION_MINOR, GLEW_VERSION_MICRO);
 	ImGui::SameLine();
-	if (ImGui::Button("Download"))
+	if (ImGui::Button("Glew"))
 		RequestBrowser("http://glew.sourceforge.net/");
 
 	ImGui::BulletText("OpenGL v%s", glGetString(GL_VERSION));
 	ImGui::SameLine();
-	if (ImGui::Button("Download"))
+	if (ImGui::Button("OpenGL"))
 		RequestBrowser("https://www.opengl.org/");
+
+	ImGui::BulletText("Assimp v%d.%d", aiGetVersionMajor(), aiGetVersionMinor());
+	ImGui::SameLine();
+	if (ImGui::Button("Assimp"))
+		RequestBrowser("https://github.com/assimp/assimp");
+
+	ImGui::BulletText("DevIL");
+	ImGui::SameLine();
+	if (ImGui::Button("DevIL"))
+		RequestBrowser("https://openil.sourceforge.net/download.php");
+
+	ImGui::BulletText("Parson v%d.%d", PARSON_VERSION_MAJOR, PARSON_VERSION_MINOR);
+	ImGui::SameLine();
+	if (ImGui::Button("Parson"))
+		RequestBrowser("https://github.com/kgabis/parson");
+
+	ImGui::BulletText("MathGeoLib");
+	ImGui::SameLine();
+	if (ImGui::Button("MathGeoLib"))
+		RequestBrowser("https://github.com/juj/MathGeoLib");
 
 	ImGui::Separator();
 	ImGui::Spacing();
