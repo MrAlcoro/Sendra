@@ -2,8 +2,8 @@
 #define __MODULEWINDOW_H__
 
 #include "Module.h"
-#include "SDL/include/SDL.h"
-#include "Parson/parson.h"
+#include "Assets/Libraries/SDL/include/SDL.h"
+#include "Assets/Libraries/Parson/parson.h"
 
 class Application;
 

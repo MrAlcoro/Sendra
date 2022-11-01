@@ -1,18 +1,18 @@
 #include "Application.h"
 #include "ModuleLoader.h"
-#include "Assimp/include/cimport.h"
-#include "Assimp/include/cimport.h"
-#include "Assimp/include/scene.h"
-#include "Assimp/include/postprocess.h"
-#include "Assimp/include/cfileio.h"
-#include "DevIL/include/il.h"
-#include "DevIL/include/ilut.h"
-#include "MathGeoLib/include/Geometry/AABB.h"
+#include "Assets/Libraries/Assimp/include/cimport.h"
+#include "Assets/Libraries/Assimp/include/cimport.h"
+#include "Assets/Libraries/Assimp/include/scene.h"
+#include "Assets/Libraries/Assimp/include/postprocess.h"
+#include "Assets/Libraries/Assimp/include/cfileio.h"
+#include "Assets/Libraries/DevIL/include/il.h"
+#include "Assets/Libraries/DevIL/include/ilut.h"
+#include "Assets/Libraries/MathGeoLib/include/Geometry/AABB.h"
 
-#pragma comment (lib, "Assimp/libx86/assimp.lib")
-#pragma comment (lib, "DevIL/libx86/DevIL.lib")
-#pragma comment (lib, "DevIL/libx86/ILU.lib")
-#pragma comment (lib, "DevIL/libx86/ILUT.lib")
+#pragma comment (lib, "Assets/Libraries/Assimp/libx86/assimp.lib")
+#pragma comment (lib, "Assets/Libraries/DevIL/libx86/DevIL.lib")
+#pragma comment (lib, "Assets/Libraries/DevIL/libx86/ILU.lib")
+#pragma comment (lib, "Assets/Libraries/DevIL/libx86/ILUT.lib")
 
 
 ModuleLoader::ModuleLoader(Application* app, bool start_enabled) : Module(app, start_enabled)
@@ -161,7 +161,7 @@ void ModuleLoader::LoadMesh(const aiScene* scene, aiNode* children_node)
 
 				if (texture_path.length > 0)
 				{
-					std::string base_path = "Assets/";
+					std::string base_path = "Assets/Models/";
 					std::string final_path = texture_path.data;
 					final_path.erase(0, final_path.find_last_of("\\") + 1);
 					base_path += final_path;

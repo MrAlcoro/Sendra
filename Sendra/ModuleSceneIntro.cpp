@@ -19,8 +19,8 @@ bool ModuleSceneIntro::Start()
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
 
-	App->loader->LoadFile("../Assets/BakerHouse.fbx");
-	App->loader->SetTexture("../Assets/Baker_house.png");
+	App->loader->LoadFile("../Assets/Models/BakerHouse.fbx");
+	App->loader->SetTexture("../Assets/Models/Baker_house.png");
 
 	return ret;
 }

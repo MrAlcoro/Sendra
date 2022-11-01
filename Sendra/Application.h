@@ -11,7 +11,7 @@
 #include "ModuleCamera3D.h"
 #include "ModuleEditor.h"
 #include "ModuleLoader.h"
-#include "Parson/parson.h"
+#include "Assets/Libraries/Parson/parson.h"
 #include <list>
 
 using namespace std;

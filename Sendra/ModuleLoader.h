@@ -3,7 +3,7 @@
 
 #include "Module.h"
 #include "Globals.h"
-#include "glew\include\glew.h"
+#include "Assets/Libraries/Glew/include/glew.h"
 #include <vector>
 #include <string>
 
