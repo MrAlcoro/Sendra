@@ -30,7 +30,7 @@ bool ModuleEditor::Init()
 			show_properties_window = json_object_dotget_boolean(editor_object, "show_properties");
 			show_about_window = json_object_dotget_boolean(editor_object, "show_about");
 			show_console_window = json_object_dotget_boolean(editor_object, "show_console");
-			show_inspector_window = json_object_dotget_boolean(editor_object, "show_inspector");
+			show_hierarchy_window = json_object_dotget_boolean(editor_object, "show_hierarchy");
 		}
 		else
 		{
@@ -38,7 +38,7 @@ bool ModuleEditor::Init()
 			show_properties_window = false;
 			show_about_window = false;
 			show_console_window = true;
-			show_inspector_window = true;
+			show_hierarchy_window = true;
 		}
 	}
 	else
@@ -47,7 +47,7 @@ bool ModuleEditor::Init()
 		show_properties_window = false;
 		show_about_window = false;
 		show_console_window = true;
-		show_inspector_window = true;
+		show_hierarchy_window = true;
 	}
 
 	IMGUI_CHECKVERSION();
@@ -112,8 +112,8 @@ void ModuleEditor::Draw()
 	if (show_console_window)
 		ShowConsoleWindow();
 
-	if (show_inspector_window)
-		ShowInspectorWindow();
+	if (show_hierarchy_window)
+		ShowHierarchyWindow();
 
 	// Main menu bar ------------------------------------------------------------
 	if (ImGui::BeginMainMenuBar())
@@ -145,8 +145,8 @@ void ModuleEditor::Draw()
 			if (ImGui::MenuItem("Console"))
 				show_console_window = !show_console_window;
 
-			if (ImGui::MenuItem("Inspector"))
-				show_inspector_window = !show_inspector_window;
+			if (ImGui::MenuItem("Hierarchy"))
+				show_hierarchy_window = !show_hierarchy_window;
 
 			ImGui::EndMenu();
 		}
@@ -360,11 +360,32 @@ void ModuleEditor::ShowConsoleWindow()
 	ImGui::End();
 }
 
-void ModuleEditor::ShowInspectorWindow()
+void ModuleEditor::ShowHierarchyWindow()
 {
 	ImGui::SetNextWindowPos(ImVec2(160, 360), ImGuiCond_Appearing, ImVec2(0.5f, 0.4f));
 	ImGui::SetNextWindowSize(ImVec2(300, 700));
-	ImGui::Begin("Inspector");
+	ImGui::Begin("Hierarchy");
+
+	for (std::vector<MeshData>::iterator item = App->loader->meshes.begin(); item != App->loader->meshes.end(); ++item)
+	{
+		if (ImGui::CollapsingHeader("Mesh"))
+		{
+			ImGui::Text("Transformation");
+			ImGui::Text("Position: (%f, %f, %f)", 0.0f, 0.0f, 0.0f);
+			ImGui::Text("Rotation: (%f, %f, %f)", 0.0f, 0.0f, 0.0f);
+			ImGui::Text("Scale: (%f, %f, %f)", 1.0f, 1.0f, 1.0f);
+			ImGui::Separator();
+			ImGui::Text("Geometry");
+			ImGui::Text("Mesh's number of uvs: %i", item->num_uvs);
+			ImGui::Text("Mesh's number of normals: %i", item->num_normals);
+			ImGui::Text("Mesh's number of index: %i", item->num_index);
+			ImGui::Text("Mesh's number of vertex: %i", item->num_vertex);
+			ImGui::Text("Mesh's triangles: %i", item->num_vertex / 3);
+			ImGui::Separator();
+			ImGui::Text("Textures");
+			ImGui::Image((ImTextureID)(*item).texture_id, ImVec2(200, 200), ImVec2(0, 0), ImVec2(1, -1));
+		}
+	}
 
 	ImGui::End();
 }
@@ -379,7 +400,7 @@ bool ModuleEditor::Save()
 			json_object_dotset_boolean(App->modules_object, "editor.show_properties", show_properties_window);
 			json_object_dotset_boolean(App->modules_object, "editor.show_about", show_about_window);
 			json_object_dotset_boolean(App->modules_object, "editor.show_console", show_console_window);
-			json_object_dotset_boolean(App->modules_object, "editor.show_inspector", show_inspector_window);
+			json_object_dotset_boolean(App->modules_object, "editor.show_hierarchy", show_hierarchy_window);
 			json_serialize_to_file_pretty(App->config, "config.json");
 		}
 		else
@@ -388,7 +409,7 @@ bool ModuleEditor::Save()
 			json_object_dotset_boolean(App->modules_object, "editor.show_properties", show_properties_window);
 			json_object_dotset_boolean(App->modules_object, "editor.show_about", show_about_window);
 			json_object_dotset_boolean(App->modules_object, "editor.show_console", show_console_window);
-			json_object_dotset_boolean(App->modules_object, "editor.show_inspector", show_inspector_window);
+			json_object_dotset_boolean(App->modules_object, "editor.show_hierarchy", show_hierarchy_window);
 			json_serialize_to_file_pretty(App->config, "config.json");
 		}
 	}
@@ -398,7 +419,7 @@ bool ModuleEditor::Save()
 		json_object_dotset_boolean(App->modules_object, "editor.show_properties", show_properties_window);
 		json_object_dotset_boolean(App->modules_object, "editor.show_about", show_about_window);
 		json_object_dotset_boolean(App->modules_object, "editor.show_console", show_console_window);
-		json_object_dotset_boolean(App->modules_object, "editor.show_inspector", show_inspector_window);
+		json_object_dotset_boolean(App->modules_object, "editor.show_hierarchy", show_hierarchy_window);
 		json_serialize_to_file_pretty(App->config, "config.json");
 	}
 
@@ -420,7 +441,7 @@ bool ModuleEditor::Load()
 			show_properties_window = json_object_dotget_boolean(editor_object, "show_properties");
 			show_about_window = json_object_dotget_boolean(editor_object, "show_about");
 			show_console_window = json_object_dotget_boolean(editor_object, "show_console");
-			show_inspector_window = json_object_dotget_boolean(editor_object, "show_inspector");
+			show_hierarchy_window = json_object_dotget_boolean(editor_object, "show_hierarchy");
 
 			ret = true;
 		}
