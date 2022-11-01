@@ -1,5 +1,4 @@
 # Sendra
--------------------------------------------------------------
 
 The Sendra engine has been created by Alexis Cosano Rodríguez as a college's project.
 This release aims to be a 3D model viewer, which can load models with more than one mesh, but only one texture at a time.
@@ -22,7 +21,6 @@ On the main menu bar there are some options that will help you test and learn mo
 
 
 # Known issues
--------------------------------------------------------------
 
 Loading after saving during the first time opening of the executable, will cause it to open up some windows that should
 not open at that point in time. If you want to avoid this, open the executable for the first time, save, and close it.
@@ -32,7 +30,6 @@ can just close them through the main menu bar. It's just lest tedious.)
 
 
 # Useful links
--------------------------------------------------------------
 
 My profile: https://github.com/MrAlcoro
 
@@ -42,11 +39,7 @@ Sendra's releases: https://github.com/MrAlcoro/Sendra/releases
 
 
 
-
--------------------------------------------------------------
--------------------------------------------------------------
--------------------------------------------------------------
-MIT License
+# MIT License
 
 Copyright (c) 2022 Alexis Cosano
 
