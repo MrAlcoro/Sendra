@@ -7,7 +7,7 @@
 #include "imgui_internal.h"
 #include "imgui_impl_opengl3.h"
 #include "imgui_impl_sdl.h"
-#include "Assets/Libraries/Parson/parson.h"
+#include "parson.h"
 #include <vector>
 
 

@@ -21,8 +21,8 @@
 #define __ilut_h_
 #define __ILUT_H__
 
-#include "Assets/Libraries/DevIL/include/il.h"
-#include "Assets/Libraries/DevIL/include/ilu.h"
+#include "il.h"
+#include "ilu.h"
 
 
 //-----------------------------------------------------------------------------
@@ -97,7 +97,7 @@
 		#endif
 	#endif
 
-	#include "Assets/Libraries/DevIL/include/ilut_config.h"
+	#include "ilut_config.h"
 #endif
 
 

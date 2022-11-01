@@ -1,18 +1,18 @@
 #include "Application.h"
 #include "ModuleLoader.h"
-#include "Assets/Libraries/Assimp/include/cimport.h"
-#include "Assets/Libraries/Assimp/include/cimport.h"
-#include "Assets/Libraries/Assimp/include/scene.h"
-#include "Assets/Libraries/Assimp/include/postprocess.h"
-#include "Assets/Libraries/Assimp/include/cfileio.h"
-#include "Assets/Libraries/DevIL/include/il.h"
-#include "Assets/Libraries/DevIL/include/ilut.h"
-#include "Assets/Libraries/MathGeoLib/include/Geometry/AABB.h"
+#include "cimport.h"
+#include "cimport.h"
+#include "scene.h"
+#include "postprocess.h"
+#include "cfileio.h"
+#include "il.h"
+#include "ilut.h"
+#include "AABB.h"
 
-#pragma comment (lib, "Assets/Libraries/Assimp/libx86/assimp.lib")
-#pragma comment (lib, "Assets/Libraries/DevIL/libx86/DevIL.lib")
-#pragma comment (lib, "Assets/Libraries/DevIL/libx86/ILU.lib")
-#pragma comment (lib, "Assets/Libraries/DevIL/libx86/ILUT.lib")
+#pragma comment (lib, "../Libraries/Assimp/libx86/assimp.lib")
+#pragma comment (lib, "../Libraries/DevIL/libx86/DevIL.lib")
+#pragma comment (lib, "../Libraries/DevIL/libx86/ILU.lib")
+#pragma comment (lib, "../Libraries/DevIL/libx86/ILUT.lib")
 
 
 ModuleLoader::ModuleLoader(Application* app, bool start_enabled) : Module(app, start_enabled)
