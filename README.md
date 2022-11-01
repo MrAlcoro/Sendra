@@ -28,7 +28,7 @@ After opening it again, it should work fine. (Note: this is not necessary, if yo
 can just close them through the main menu bar. It's just lest tedious.)
 
 - Right now, the Hierarchy also displays the things the inspector should show, and when pressing on a CollapsingHeader, all
- of them open and close. Textures do not display correctly.
+ of them open and close.
 
 
 

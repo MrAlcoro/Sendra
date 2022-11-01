@@ -161,7 +161,7 @@ void ModuleLoader::LoadMesh(const aiScene* scene, aiNode* children_node)
 
 				if (texture_path.length > 0)
 				{
-					std::string base_path = "Assets/Models/";
+					std::string base_path = "../../Models/";
 					std::string final_path = texture_path.data;
 					final_path.erase(0, final_path.find_last_of("\\") + 1);
 					base_path += final_path;
