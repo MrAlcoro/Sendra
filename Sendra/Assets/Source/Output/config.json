@@ -12,13 +12,13 @@
     },
     "camera": null,
     "input": null,
+    "loader": null,
     "renderer": null,
     "editor": {
         "show_demo": false,
         "show_properties": false,
         "show_about": false,
         "show_console": true,
-        "show_inspector": true
-    },
-    "loader": null
+        "show_hierarchy": true
+    }
 }

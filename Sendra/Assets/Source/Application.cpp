@@ -57,10 +57,13 @@ bool Application::Init()
 	}
 	else
 	{
-		LOG("Configuration could not be loaded.");
-	}
-		
-	
+		config = json_value_init_object();
+		modules_object = json_value_get_object(config);
+		json_serialize_to_file(config, "config.json");
+
+		LOG("Configuration not found. Initializing config file...");
+		LOG("You're using Sendra's default settings.");
+	}	
 
 	// Call Init() in all modules
 
@@ -155,19 +158,21 @@ void Application::AddModule(Module* mod)
 
 void Application::CallSave()
 {
+	LOG("Saving engine's configuration...");
+
 	std::list<Module*>::iterator iterator = list_modules.begin();
 
 	while (iterator != list_modules.end())
 	{
 		iterator._Ptr->_Myval->Save();
 		iterator++;
-	}
-
-	LOG("Saving engine's configuration...");
+	}	
 }
 
 void Application::CallLoad()
 {
+	LOG("Loading engine's configuration...");
+
 	std::list<Module*>::iterator iterator = list_modules.begin();
 
 	while (iterator != list_modules.end())
@@ -175,6 +180,4 @@ void Application::CallLoad()
 		iterator._Ptr->_Myval->Load();
 		iterator++;
 	}
-
-	LOG("Loading engine's configuration...");
 }

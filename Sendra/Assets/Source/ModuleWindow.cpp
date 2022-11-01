@@ -211,8 +211,16 @@ bool ModuleWindow::Save()
 	}
 	else
 	{
-		App->config = json_value_init_object();
-		json_serialize_to_file_pretty(App->config, "config.json");		
+		json_object_dotset_string(App->modules_object, "window.title", window_title);
+		json_object_dotset_number(App->modules_object, "window.width", wwidth);
+		json_object_dotset_number(App->modules_object, "window.height", wheight);
+		json_object_dotset_number(App->modules_object, "window.scale", wscale);
+		json_object_dotset_boolean(App->modules_object, "window.fullscreen", wfullscreen);
+		json_object_dotset_boolean(App->modules_object, "window.resizable", wresizable);
+		json_object_dotset_boolean(App->modules_object, "window.borderless", wborderless);
+		json_object_dotset_boolean(App->modules_object, "window.windowed_fullscreen", wdesktop);
+		json_object_dotset_boolean(App->modules_object, "window.vsync", wvsync);
+		json_serialize_to_file_pretty(App->config, "config.json");
 	}
 
 	LOG("Saving module %s", name.data());
