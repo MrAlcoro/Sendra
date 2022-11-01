@@ -26,25 +26,28 @@ bool ModuleEditor::Init()
 
 		if (editor_object != NULL)
 		{
-			showDemoWindow = json_object_dotget_boolean(editor_object, "show_demo");
-			showPropertiesWindow = json_object_dotget_boolean(editor_object, "show_properties");
-			showAboutWindow = json_object_dotget_boolean(editor_object, "show_about");
-			showConsoleWindow = json_object_dotget_boolean(editor_object, "show_console");
+			show_demo_window = json_object_dotget_boolean(editor_object, "show_demo");
+			show_properties_window = json_object_dotget_boolean(editor_object, "show_properties");
+			show_about_window = json_object_dotget_boolean(editor_object, "show_about");
+			show_console_window = json_object_dotget_boolean(editor_object, "show_console");
+			show_inspector_window = json_object_dotget_boolean(editor_object, "show_inspector");
 		}
 		else
 		{
-			showDemoWindow = false;
-			showPropertiesWindow = false;
-			showAboutWindow = false;
-			showConsoleWindow = false;
+			show_demo_window = false;
+			show_properties_window = false;
+			show_about_window = false;
+			show_console_window = true;
+			show_inspector_window = true;
 		}
 	}
 	else
 	{
-		showDemoWindow = false;
-		showPropertiesWindow = false;
-		showAboutWindow = false;
-		showConsoleWindow = false;
+		show_demo_window = false;
+		show_properties_window = false;
+		show_about_window = false;
+		show_console_window = true;
+		show_inspector_window = true;
 	}
 
 	IMGUI_CHECKVERSION();
@@ -97,17 +100,20 @@ void ModuleEditor::Draw()
 	ImGui_ImplSDL2_NewFrame();
 	ImGui::NewFrame();
 
-	if (showDemoWindow)
+	if (show_demo_window)
 		ImGui::ShowDemoWindow();
 
-	if (showPropertiesWindow)
+	if (show_properties_window)
 		ShowPropertiesWindow();
 
-	if (showAboutWindow)
+	if (show_about_window)
 		ShowAboutWindow();
 
-	if (showConsoleWindow)
+	if (show_console_window)
 		ShowConsoleWindow();
+
+	if (show_inspector_window)
+		ShowInspectorWindow();
 
 	// Main menu bar ------------------------------------------------------------
 	if (ImGui::BeginMainMenuBar())
@@ -134,10 +140,13 @@ void ModuleEditor::Draw()
 		if (ImGui::BeginMenu("Project"))
 		{
 			if (ImGui::MenuItem("Properties"))
-				showPropertiesWindow = !showPropertiesWindow;
+				show_properties_window = !show_properties_window;
 
 			if (ImGui::MenuItem("Console"))
-				showConsoleWindow = !showConsoleWindow;
+				show_console_window = !show_console_window;
+
+			if (ImGui::MenuItem("Inspector"))
+				show_inspector_window = !show_inspector_window;
 
 			ImGui::EndMenu();
 		}
@@ -145,10 +154,10 @@ void ModuleEditor::Draw()
 		if (ImGui::BeginMenu("Help"))
 		{
 			if (ImGui::MenuItem("ImGui Demo"))
-				showDemoWindow = !showDemoWindow;
+				show_demo_window = !show_demo_window;
 
 			if (ImGui::MenuItem("About"))
-				showAboutWindow = !showAboutWindow;
+				show_about_window = !show_about_window;
 
 			ImGui::EndMenu();
 		}
@@ -181,28 +190,23 @@ void ModuleEditor::ShowPropertiesWindow()
 	{
 		if (ImGui::Checkbox("Fullscreen", &fullscreen))
 		{
-			App->window->SetFullscreen(fullscreen);
-			fullscreen = !fullscreen;
+			//App->window->SetFullscreen(fullscreen);
 		}
 
 		if (ImGui::Checkbox("Borderless", &borderless))
 		{
 			App->window->SetBorderless(borderless);
-			borderless = !borderless;
 		}
 
 		if (ImGui::Checkbox("Resizable", &resizable))
 		{
 			App->window->SetResizable(resizable);
-			resizable = !resizable;
 		}
 
 		if (ImGui::Checkbox("Full desktop", &full_desktop))
 		{
 			App->window->SetFullDesktop(full_desktop);
-			full_desktop = !full_desktop;
 		}
-			
 	}
 
 	if (ImGui::CollapsingHeader("Input"))
@@ -342,7 +346,7 @@ void ModuleEditor::ConsoleLog(const char* console_log)
 
 void ModuleEditor::ShowConsoleWindow()
 {
-	ImGui::SetNextWindowPos(ImVec2(600, 850), ImGuiCond_Appearing, ImVec2(0.5f, 0.4f));
+	ImGui::SetNextWindowPos(ImVec2(600, 870), ImGuiCond_Appearing, ImVec2(0.5f, 0.4f));
 	ImGui::SetNextWindowSize(ImVec2(800, 200));
 	ImGui::Begin("Console");
 
@@ -356,33 +360,45 @@ void ModuleEditor::ShowConsoleWindow()
 	ImGui::End();
 }
 
+void ModuleEditor::ShowInspectorWindow()
+{
+	ImGui::SetNextWindowPos(ImVec2(160, 360), ImGuiCond_Appearing, ImVec2(0.5f, 0.4f));
+	ImGui::SetNextWindowSize(ImVec2(300, 700));
+	ImGui::Begin("Inspector");
+
+	ImGui::End();
+}
+
 bool ModuleEditor::Save()
 {
 	if (App->config != NULL)
 	{
 		if (json_object_has_value(App->modules_object, name.data()) == false)
 		{
-			json_object_dotset_boolean(App->modules_object, "editor.show_demo", showDemoWindow);
-			json_object_dotset_boolean(App->modules_object, "editor.show_properties", showPropertiesWindow);
-			json_object_dotset_boolean(App->modules_object, "editor.show_about", showAboutWindow);
-			json_object_dotset_boolean(App->modules_object, "editor.show_console", showConsoleWindow);
+			json_object_dotset_boolean(App->modules_object, "editor.show_demo", show_demo_window);
+			json_object_dotset_boolean(App->modules_object, "editor.show_properties", show_properties_window);
+			json_object_dotset_boolean(App->modules_object, "editor.show_about", show_about_window);
+			json_object_dotset_boolean(App->modules_object, "editor.show_console", show_console_window);
+			json_object_dotset_boolean(App->modules_object, "editor.show_inspector", show_inspector_window);
 			json_serialize_to_file_pretty(App->config, "config.json");
 		}
 		else
 		{
-			json_object_dotset_boolean(App->modules_object, "editor.show_demo", showDemoWindow);
-			json_object_dotset_boolean(App->modules_object, "editor.show_properties", showPropertiesWindow);
-			json_object_dotset_boolean(App->modules_object, "editor.show_about", showAboutWindow);
-			json_object_dotset_boolean(App->modules_object, "editor.show_console", showConsoleWindow);
+			json_object_dotset_boolean(App->modules_object, "editor.show_demo", show_demo_window);
+			json_object_dotset_boolean(App->modules_object, "editor.show_properties", show_properties_window);
+			json_object_dotset_boolean(App->modules_object, "editor.show_about", show_about_window);
+			json_object_dotset_boolean(App->modules_object, "editor.show_console", show_console_window);
+			json_object_dotset_boolean(App->modules_object, "editor.show_inspector", show_inspector_window);
 			json_serialize_to_file_pretty(App->config, "config.json");
 		}
 	}
 	else
 	{
-		json_object_dotset_boolean(App->modules_object, "editor.show_demo", showDemoWindow);
-		json_object_dotset_boolean(App->modules_object, "editor.show_properties", showPropertiesWindow);
-		json_object_dotset_boolean(App->modules_object, "editor.show_about", showAboutWindow);
-		json_object_dotset_boolean(App->modules_object, "editor.show_console", showConsoleWindow);
+		json_object_dotset_boolean(App->modules_object, "editor.show_demo", show_demo_window);
+		json_object_dotset_boolean(App->modules_object, "editor.show_properties", show_properties_window);
+		json_object_dotset_boolean(App->modules_object, "editor.show_about", show_about_window);
+		json_object_dotset_boolean(App->modules_object, "editor.show_console", show_console_window);
+		json_object_dotset_boolean(App->modules_object, "editor.show_inspector", show_inspector_window);
 		json_serialize_to_file_pretty(App->config, "config.json");
 	}
 
@@ -400,10 +416,11 @@ bool ModuleEditor::Load()
 		{
 			LOG("Loading module %s", name.data());
 
-			showDemoWindow = json_object_dotget_boolean(editor_object, "show_demo");
-			showPropertiesWindow = json_object_dotget_boolean(editor_object, "show_properties");
-			showAboutWindow = json_object_dotget_boolean(editor_object, "show_about");
-			showConsoleWindow = json_object_dotget_boolean(editor_object, "show_console");
+			show_demo_window = json_object_dotget_boolean(editor_object, "show_demo");
+			show_properties_window = json_object_dotget_boolean(editor_object, "show_properties");
+			show_about_window = json_object_dotget_boolean(editor_object, "show_about");
+			show_console_window = json_object_dotget_boolean(editor_object, "show_console");
+			show_inspector_window = json_object_dotget_boolean(editor_object, "show_inspector");
 
 			ret = true;
 		}

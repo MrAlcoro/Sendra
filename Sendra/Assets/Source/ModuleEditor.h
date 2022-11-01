@@ -27,6 +27,7 @@ public:
 	void ShowPropertiesWindow();
 	void ShowAboutWindow();
 	void ShowConsoleWindow();
+	void ShowInspectorWindow();
 	void RequestBrowser(const char* website_url);
 
 	bool Save();
@@ -37,10 +38,11 @@ public:
 
 private:
 
-	bool showDemoWindow = false;
-	bool showPropertiesWindow = false;
-	bool showAboutWindow = false;
-	bool showConsoleWindow = false;
+	bool show_demo_window = false;
+	bool show_properties_window = false;
+	bool show_about_window = false;
+	bool show_console_window = false;
+	bool show_inspector_window = true;
 	JSON_Object* editor_object;
 	bool fullscreen = false;
 	bool resizable = false;
