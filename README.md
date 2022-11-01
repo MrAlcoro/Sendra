@@ -21,6 +21,16 @@ On the main menu bar there are some options that will help you test and learn mo
 
 
 
+# Known issues
+-------------------------------------------------------------
+
+Loading after saving during the first time opening of the executable, will cause it to open up some windows that should
+not open at that point in time. If you want to avoid this, open the executable for the first time, save, and close it.
+After opening it again, it should work fine. (Note: this is not necessary, if you load and have all the windows open, you
+can just close them through the main menu bar. It's just lest tedious.)
+
+
+
 # Useful links
 -------------------------------------------------------------
 
